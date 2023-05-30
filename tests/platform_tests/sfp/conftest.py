@@ -1,6 +1,8 @@
 import pytest
 import logging
 import os
+import json
+from tests.common.utilities import wait_until
 
 ans_host = None
 
@@ -40,6 +42,7 @@ def backup_original_daemon_file(duthost, pmon_daemon_file_path):
     original_file_path = os.path.join("/tmp", "pmon_daemon_control.json")
     return original_file_path
 
+
 @pytest.fixture(autouse=False)
 def stop_xcvrd(duthost):
     dut_platfrom = duthost.facts['platform']
@@ -56,6 +59,7 @@ def stop_xcvrd(duthost):
 
     yield
     #return the original daemon control file to the path
+    # return the original daemon control file to the path
     duthost.shell("mv {} {}".format(original_file_path, pmon_daemon_file_path))
     restart_pmon(duthost)
 
